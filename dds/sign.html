@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+#sign { transform-style: preserve-3d;perspective:5000px;overflow: hidden; }
+#wrap {transform-style: preserve-3d;perspective:1000px;}
+#box { width: 1000px;height: 650px;transform-style: preserve-3d;margin: 100px auto;position: relative;-animation: rot 5s linear infinite alternate;transform-origin: center center 500px;}
+#box div { position: absolute;left: 0;top: 0;background-size: cover; }
+#box div:nth-of-type(1) {width: 1000px;height: 650px; transform: translateZ(1000px); background-image: url(img/6.jpg);}
+#box div:nth-of-type(2) {width: 1000px;height: 650px;background-image: url(img/1.jpg); }
+#box div:nth-of-type(3) {width: 1000px;height: 650px; transform:  rotateY(-90deg);transform-origin: left center;background-image: url(img/2.jpg); }
+#box div:nth-of-type(4) {width: 1000px;height: 650px; transform:  rotateY(90deg) ;transform-origin: right center;background-image: url(img/3.jpg); }
+#box div:nth-of-type(5) {width: 1000px;height: 1000px; transform: translateY(-350px) rotateX(-90deg);transform-origin: center bottom; background-image: url(img/4.jpg); }
+#box div:nth-of-type(6) {width: 1000px;height: 1000px; transform:  rotateX(90deg);transform-origin: center top;background-image: url(img/5.jpg); }
+@keyframes rot {
+	0%{
+		transform: none;
+	}
+	100%{
+		transform: rotateX(360deg);
+	}
+}
+</style>
+<script>
+window.onload = function(){
+	var oBox = document.getElementById('box');
+	var oWrap = document.getElementById('wrap');
+	var moX = 0;
+	var moY = 0;
+	var trZ = 5;
+	
+	oWrap.addEventListener('DOMMouseScroll',fnScroll);
+	oWrap.onmousewheel = fnScroll;
+	oWrap.style.transform = 'translateZ('+ 100 +'px)';
+	
+	function fnScroll(ev){
+		var flag = true;
+
+		if(ev.wheelDelta){
+			flag = ev.wheelDelta>0? true:false;
+		}else{
+			flag = ev.detail<0? true:false;
+		}
+		
+		if(flag){//上
+			//this.style.transform = 'translateZ(200px)';
+			trZ+=5;
+		}else{//下
+			trZ-=5;
+			//this.style.transform = 'translateZ(0px)';
+		}
+		trZ = trZ<5?5:trZ;
+		trZ = trZ>50?50:trZ;
+		this.style.transform = 'translateZ('+ trZ*20 +'px)';
+	}
+	oBox.onmousedown = function(ev){
+		var bX = ev.clientX;
+		var bY = ev.clientY;
+		var nowMoX = moX;
+		var nowMoY = moY;
+		document.onmousemove = function(ev){
+			var disX = ev.clientX-bX;
+			var disY = ev.clientY-bY;
+			var mostY = 20;
+			moY = nowMoY+disY/10;
+			moX = nowMoX-disX/10;
+			mostY = moY>0?mostY:-mostY;
+			moY = Math.abs(moY)>Math.abs(mostY)? mostY:moY;
+			oBox.style.transform = 'rotateY('+ moX +'deg)';
+			// rotateX('+ moY +'deg)
+		}
+		document.onmouseup = function(){
+			document.onmouseup = document.onmousemove = null;
+		}
+
+		return false;
+	}
+}
+</script>
+</head>
+<body>
+<div id="sign">
+	<div id="wrap">
+		<div id="box">
+			<div class="plane"></div>
+			<div class="plane"></div>
+			<div class="plane"></div>
+			<div class="plane"></div>
+			<div class="plane"></div>
+			<div class="plane"></div>
+		</div>
+	</div>
+</div>
+	
+
+
+</body>
+</html>

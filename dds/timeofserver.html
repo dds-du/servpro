@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>time</title>
+<style>
+*{ margin:0; padding:0; font-family:"微软雅黑";}
+li{ list-style:none;}
+#wrap { width:510px; height:80px; border:1px solid black; padding:10px; margin:50px auto;}
+#time{ width:510px;height:80px;}
+#time li{ float:left;position:relative; margin-right:4px; width:60px; height:80px;overflow:hidden;}
+#time .last {margin:0;}
+#time img { width:60px; height:80px; position:absolute;}
+#time .t1 { top:0;}
+#time .t2{ top:80px;}
+
+#cv{background:white;width:600px;position: relative; left:30%;}
+
+</style>
+
+<script>
+function getStyle(obj,attr){
+	return obj.currentStyle? obj.currentStyle[attr]:getComputedStyle(obj)[attr];
+};
+function move(obj,attr,target,endFn){	
+	clearInterval(obj[attr]);
+	
+	obj[attr] = setInterval(function(){
+		var dir = 0;
+		if (attr == 'opacity'){
+			dir = parseInt(parseFloat(getStyle(obj,attr))*100);
+		}else{
+			dir = parseInt(getStyle(obj,attr));
+		}
+		
+		var sign = (target - dir)/5;
+		sign = sign>0? Math.ceil(sign):Math.floor(sign);
+		if(sign == 0){					
+			clearInterval(obj[attr]);
+			endFn&&endFn();								
+		}else{
+			if(attr=='opacity'){
+				obj.style.filter = 'alpha(opacity = ' + (dir + sign) + ')';
+				obj.style.opacity = (dir + sign)/100;
+			}else{
+				obj.style[attr] = dir + sign + 'px';
+			}
+		}				
+		
+	},50); 
+};
+
+window.onload = function(){
+	var oTime = document.getElementById('time');
+	var oC = document.getElementById('cv');
+	var oGc = oC.getContext('2d');
+	var aLi = oTime.getElementsByTagName('li');
+	var aPoint = oTime.getElementsByClassName('point');
+	var aT1 = oTime.getElementsByClassName('t1');
+	var aT2 = oTime.getElementsByClassName('t2');	
+	var aFlag = [];
+	var aOnoff = [];
+	var aThat = [];
+	var times = 0;
+
+	var aSrc = ['img/time/0.jpg','img/time/1.jpg','img/time/2.jpg','img/time/3.jpg','img/time/4.jpg','img/time/5.jpg','img/time/6.jpg','img/time/7.jpg','img/time/8.jpg','img/time/9.jpg',];
+	
+	
+	
+	time();
+	setInterval(time,1000);
+	time2();
+	setInterval(time2,1000);
+	
+
+	function time(){
+
+
+		aPoint[0].src = 'img/time/colon.jpg';
+		aPoint[1].src = 'img/time/colon.jpg';
+		
+
+		
+		setTimeout(function(){
+			aPoint[0].src = 'img/time/no.jpg';
+			aPoint[1].src = 'img/time/no.jpg';
+		},500);
+	};
+
+	getTime();
+	function getTime(){
+		var xhr = new XMLHttpRequest;
+		xhr.open('POST','time.php','false');
+		xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+ 		xhr.send();
+
+ 		xhr.onload = function(){
+ 			times = xhr.responseText;
+ 			start();
+ 		}
+	}
+	console.log(times+'2');
+	
+	function start(){
+		for(var i=0;i<6;i++){
+			aFlag.push(false);
+			aOnoff.push(true);	
+			//alert(times);
+			aT1[i].src = aSrc[times.charAt(i)];
+			aThat[i] = parseInt(times.charAt(i));
+		}	
+	}
+	
+	setInterval(change,1000);
+	function change(){
+		
+		var xhr = new XMLHttpRequest;
+		xhr.open('POST','time.php','false');
+		xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+ 		xhr.send();
+
+ 		xhr.onload = function(){
+ 			times = xhr.responseText;
+ 			
+ 			pic(5,times.charAt(5),9);
+			pic(4,times.charAt(4),6);
+			pic(3,times.charAt(3),9);
+			pic(2,times.charAt(2),6);
+			pic(1,times.charAt(1),9);
+			pic(0,times.charAt(0),2);	
+ 		}
+						
+	}
+
+	function pic(num,obj,two){
+		x = parseInt(obj)-1==-1? two:parseInt(obj)-1;
+		if(aThat[num] != parseInt(obj)){
+			aFlag[num] = true;
+		}else{
+			aFlag[num] = false;	
+		}
+		if(aFlag[num]&&aOnoff[num]){
+			aT1[num].src = aSrc[x];
+			aT2[num].src = aSrc[parseInt(obj)];
+			aT2[num].style.top = '-80px';
+			move(aT1[num],'top',80)													
+			move(aT2[num],'top',0);	
+			aOnoff[num] = false;
+		}else if(aFlag[num]&&!aOnoff[num]){
+			aT2[num].src = aSrc[x];
+			aT1[num].src = aSrc[parseInt(obj)];
+			aT1[num].style.top = '-80px';	
+			move(aT2[num],'top',80)	;		
+			move(aT1[num],'top',0);
+			aOnoff[num] = true;	
+		}
+		aThat[num] = parseInt(obj);
+	}
+	
+
+	function toTwo(n){
+		return n<10? '0' + n: '' + n;
+	};
+	function time2(){
+
+		var x = 300;
+		var y = 300;
+		var r = 200;
+		//var Time = new Date();
+		var xhr = new XMLHttpRequest;
+		xhr.open('POST','time.php','false');
+		xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+ 		xhr.send();
+
+ 		xhr.onload = function(){
+ 			times = xhr.responseText;
+ 			
+ 			var Sed = parseInt(times[4]+times[5]); //Time.getSeconds();
+			var Min = parseInt(times[2]+times[3]); //Time.getMinutes();
+			var Hou = parseInt(times[0]+times[1]); //Time.getHours();
+		
+			var hour = (Hou*30 - 90)*Math.PI/180+(Min*6-90)*Math.PI/180/12;
+			var min = (Min*6-90)*Math.PI/180;
+			var sed = (Sed*6-90)*Math.PI/180;
+
+			oGc.strokeStyle='black';
+
+			oGc.clearRect(0,0,oC.width,oC.height);
+
+			for (var i = 0; i < 60; i++) {
+				oGc.lineWidth=1;
+				oGc.beginPath();
+				oGc.moveTo(x,y);
+				oGc.arc(x,y,r,i*6*Math.PI/180,(i+1)*6*Math.PI/180);
+				oGc.closePath();
+				oGc.stroke();
+			}
+
+			oGc.fillStyle = 'white';
+			oGc.beginPath();
+			oGc.moveTo(x,y);
+			oGc.arc(x,y,r*18/20,0,2*Math.PI);
+			oGc.closePath();
+			oGc.fill();
+
+			for (var i = 0; i < 12; i++) {
+				oGc.lineWidth = 5;
+				oGc.beginPath();
+				oGc.moveTo(x,y);
+				oGc.arc(x,y,r,i*30*Math.PI/180,(i+1)*30*Math.PI/180);
+				oGc.closePath();
+				oGc.stroke();
+			}
+
+			oGc.fillStyle = 'white';
+			oGc.beginPath();
+			oGc.moveTo(x,y);
+			oGc.arc(x,y,r*16/20,0,2*Math.PI);
+			oGc.closePath();
+			oGc.fill();
+
+			oGc.beginPath();
+			oGc.moveTo(x,y);
+			oGc.arc(x,y,r*10/20,hour,hour);
+			oGc.closePath();
+			oGc.stroke();
+
+			oGc.lineWidth = 3;
+			oGc.beginPath();
+			oGc.moveTo(x,y);
+			oGc.arc(x,y,r*14/20,min,min);
+			oGc.closePath();
+			oGc.stroke();
+
+			oGc.lineWidth = 2;
+			oGc.strokeStyle="red";
+			oGc.beginPath();
+			oGc.moveTo(x,y);
+			oGc.arc(x,y,r*16/20,sed,sed);
+			oGc.closePath();
+			oGc.stroke();	
+ 		}
+					
+	}
+};
+
+</script>
+</head>
+
+<body>
+
+<div id='wrap'>
+	<ul id='time'>
+        <li><img class='t1' src="img/time/0.jpg" /><img class='t2' src="img/time/0.jpg" /></li>
+        <li><img class='t1' src="img/time/0.jpg" /><img class='t2' src="img/time/0.jpg" /></li>
+        <li><img class='point' src="img/time/colon.jpg" /></li>
+        <li><img class='t1' src="img/time/0.jpg" /><img class='t2' src="img/time/0.jpg" /></li>
+        <li><img class='t1' src="img/time/0.jpg" /><img class='t2' src="img/time/0.jpg" /></li>
+        <li><img class='point' src="img/time/colon.jpg" /></li>
+        <li><img class='t1' src="img/time/0.jpg" /><img class='t2' src="img/time/0.jpg" /></li>
+        <li class='last'><img class='t1' src="img/time/0.jpg" /><img class='t2' src="img/time/0.jpg" /></li>
+    </ul>
+</div>
+<canvas id="cv" width="600" height="600"></canvas>
+</body>
+</html>

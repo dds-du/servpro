@@ -1,0 +1,9 @@
+@charset: "utf-8";
+
+body{background:#333;}
+#box{width: 600px;margin: 100px auto;}
+#cv{background: #97F1F2;}
+.score{ border-radius: 10px;width: 200px;height: 80px;background: #59EE89;color:#F2207D; font-size: 40px; font-weight:bold;position: absolute; left: 50%;top: 100px;margin-left: -100px;line-height: 100px;}
+#btn{ border-radius: 10px;width: 100px; height: 50px;position: absolute;left: 20px;top: 130px;background: #f1f1f1;color: red; font-weight: bold; font-size: 24px; line-height: 50px;cursor: pointer;}
+#btn:hover { background-color: red;color: #fff; }
+p{color: #f1f1f1;font-size: 20px;}

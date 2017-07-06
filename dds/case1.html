@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>case1</title>
+<link rel = "Shortcut Icon" href="img/dds.png">
+<link rel="stylesheet" type="text/css" href="css/case1.css">
+<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+<script type="text/javascript">
+$(function(){	//导航栏	
+	$('#tab li').hover(function(){
+		$(this).find('a').css({'color':' #89211b','border-bottom':'2px solid #89211b'});	
+		$(this).find('div').show();
+	},function(){
+		$(this).find('a').css({'color':'','border-bottom':''});
+		$(this).find('div').hide();
+	});
+});
+$(function(){ //大图片栏
+	var timer = null;
+	var now = 0; 
+	var $pic = $('#picTab .pic');
+	var $li = $('#main .dot li');
+
+	$pic.eq(0).css('display','block');
+
+	timer = setInterval(Tab,2000);
+
+	$('#main').hover(function(){
+		clearInterval(timer);
+	},function(){
+		timer = setInterval(Tab,2000);
+	});
+
+	$li.on('mouseover',function(){
+		$pic.eq(now).fadeOut(300);
+		$li.eq(now).attr('class','');
+		now=$(this).index();
+		now = now%3;
+		$pic.eq(now).fadeIn(300);
+		$li.eq(now).attr('class','active');
+	});
+
+	$('#main .left').click(function(){
+		$pic.eq(now).fadeOut(300);
+		$li.eq(now).attr('class','');
+		now--;
+		now = now%3;
+		$pic.eq(now).fadeIn(300);
+		$li.eq(now).attr('class','active');
+	});
+
+	$('#main .right').click(function(){
+		Tab();
+	});
+
+	function Tab(num){
+		$pic.eq(now).fadeOut(300);
+		$li.eq(now).attr('class','');
+		now++;
+		now = now%3;
+		$pic.eq(now).fadeIn(300);
+		$li.eq(now).attr('class','active');
+	}
+});
+$(function(){//图标栏
+	var $li = $('#icon li');
+	$li.on('mouseover',function(){
+		$li.attr('class','');
+		$(this).attr('class','active');
+	});
+});
+$(function(){//新闻栏
+	var $pic = $('#news .picTab li');
+	var $btn = $('#news .btn li');
+	var $news = $('#news .inner li');
+	var $title = $news.find('.title');
+	var $head = $('#news .head li').not('.more');
+
+	$pic.eq(1).show();
+
+	$btn.on('mouseover',function(){
+		$(this).attr('class','active').siblings().attr('class','');
+		$pic.css('display','none').eq($(this).index()).show();
+
+	});
+
+	$news.on('mouseover',function(){
+		$(this).attr('class','active').siblings().attr('class','');
+	});
+
+	$title.hover(function(){
+		$(this).css('color','#89211b');
+	},function(){
+		$(this).css('color','#000');
+	});
+
+	$head.on('mouseover',function(){
+		$(this).attr('class','active').siblings().not('.more').attr('class','');
+	});
+});
+$(function(){//人物栏
+	var $ul = $('#person .tab');
+	var $li = $ul.find('li');
+	var $prev = $('#person .prev');
+	var $next = $('#person .next');
+	var $dot = $('#person .dot li');
+	
+	$ul.width($li.outerWidth(true)*$li.length);	
+	
+	$li.hover(function(){
+		$(this).find('.name').css('display','none');
+		$(this).find('span').css('display','none');
+		$(this).find('.detail').css('display','block');
+	},function(){
+		$(this).find('.name').css('display','block');
+		$(this).find('span').css('display','block');
+		$(this).find('.detail').css('display','none');
+	});
+	
+	$next.click(function(){
+		if($ul.position().left>$li.outerWidth(true)*5-$ul.outerWidth()){
+			$ul.off().animate({'left':$ul.position().left-$li.outerWidth(true)},'linear');
+		}
+	});
+	$prev.click(function(){
+		if($ul.position().left<0){
+			$ul.off().animate({'left':$ul.position().left+$li.outerWidth(true)},'linear');
+		}
+	});
+
+	$dot.eq(0).click(function(){
+		$(this).attr('class','active').siblings().not('.more').attr('class','');
+		if($ul.position().left!=0){
+			$ul.off().animate({'left':0},'linear');
+		}
+	});
+
+	$dot.eq(1).click(function(){
+		$(this).attr('class','active').siblings().not('.more').attr('class','');
+		if($ul.position().left!=-$li.outerWidth(true)*($li.length-5)){			
+			$ul.off().animate({'left':-$li.outerWidth(true)*($li.length-5)},'linear');
+		}
+	});
+
+});
+$(function(){//侧边栏
+	var $sec = $('#section');
+	var h = parseInt(($(window).height()-$sec.height())/2);
+	
+	$sec.css('top',h+'px');
+
+	$(window).scroll(function(){
+		$sec.css('top',$(window).scrollTop()+h+'px');
+		
+
+		if($(document).scrollTop()<1000){
+			$sec.hide(500);
+		}else{
+			$sec.show(500);
+		}
+	});
+	$sec.find('li').eq(2).click(function(){
+		$(window).scrollTop(0);
+	});
+});
+</script>
+</head>
+<body>
+<div id="head" class="wrap">
+	<ul id="tab">
+		<li>
+			<a href="javascript:;">首页</a>
+			<div>
+				<ul>
+					<li>li1</li>
+					<li>li1</li>
+					<li>li1</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;">关于我们</a>
+			<div>
+				<ul>
+					<li>li2</li>
+					<li>li2</li>
+					<li>li2</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;">专业团队</a>
+			<div>
+				<ul>
+					<li>li3</li>
+					<li>li3</li>
+					<li>li3</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;">专业领域</a>
+			<div>
+				<ul>
+					<li>li4</li>
+					<li>li4</li>
+					<li>li4</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;">律所风采</a>
+			<div>
+				<ul>
+					<li>li5</li>
+					<li>li5</li>
+					<li>li5</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;">研究判例</a>
+			<div>
+				<ul>
+					<li>li6</li>
+					<li>li6</li>
+					<li>li6</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;">社会责任</a>
+			<div>
+				<ul>
+					<li>li7</li>
+					<li>li7</li>
+					<li>li7</li>
+				</ul>
+			</div>
+		</li>
+		<li class="spe">
+			<a href="javascript:;">联系我们</a>
+			<div>
+				<ul>
+					<li>li8</li>
+					<li>li8</li>
+					<li>li8</li>
+				</ul>
+			</div>
+		</li>
+		<li class="last">
+			<a href="javascript:;"></a>
+			<div>
+				<p>请输入关键词</p>
+			</div>
+		</li>
+	</ul>
+</div>
+<div id="main">
+	<ul id="picTab" class="wrap">
+		<li>
+			<div class="pic">
+				<img src="img/pic.jpg" />
+				<div class="bar">
+					<h1>DDS</h1>
+					<span class="barL"></span>
+					<span class="barR"></span>
+				</div>		
+				<p>立足西南、面向全国</p>
+				<p>具有高度专业化并提供全面法律服务的综合性律师事务所</p>
+				<a href="#" class="more">了解更多</a>		
+			</div>
+		</li>
+		<li>
+			<div class="pic">
+				<img src="img/pic.jpg" />				
+				<div class="bar">
+					<h1>DDS1</h1>
+					<span class="barL"></span>
+					<span class="barR"></span>
+				</div>		
+				<p>立足西南、面向全国</p>
+				<p>具有高度专业化并提供全面法律服务的综合性律师事务所</p>
+				<a href="#" class="more">了解更多</a>		
+			</div>
+		</li>
+		<li>
+			<div class="pic">
+				<img src="img/pic.jpg" />			
+				<div class="bar">
+					<h1>DDS2</h1>
+					<span class="barL"></span>
+					<span class="barR"></span>
+				</div>		
+				<p>立足西南、面向全国</p>
+				<p>具有高度专业化并提供全面法律服务的综合性律师事务所</p>
+				<a href="#" class="more">了解更多</a>		
+			</div>
+		</li>
+	</ul>			
+	<ul class="dot">
+		<li class="active"></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<a class="left" href="javascript:;"></a>
+	<a class="right" href="javascript:;"></a>
+</div>
+<div id="icon">
+	<ul class="wrap">
+		<li>
+			<div class="top">
+				<a class="bg icon1" href="#"><span></span></a>
+				<p>律所简介</p>				
+			</div>				
+			<a class="btnMore" href="#">Read More</a>					
+		</li>
+		<li class="active">
+			<div class="top">
+				<a class="bg icon2" href="#"><span></span></a>
+				<p>资质荣誉</p>				
+			</div>
+			<a class="btnMore" href="#">Read More</a>	
+		</li>
+		<li>
+			<div class="top">
+				<a class="bg icon3" href="#"><span></span></a>
+				<p>服务理念</p>				
+			</div>		
+			<a class="btnMore" href="#">Read More</a>	
+		</li>
+		<li>
+			<div class="top last">
+				<a class="bg icon4" href="#"><span></span></a>
+				<p>发展历程</p>				
+			</div>	
+			<a class="btnMore" href="#">Read More</a>
+		</li>
+	</ul>
+</div>
+<div id="news">
+	<h1>新闻中心</h1>
+	<div class="bar">
+		<p>News</p>
+		<span class="barL"></span>
+		<span class="barR"></span>
+	</div>
+
+	<div class="content wrap clear">
+
+		<div class="left" href="#">
+			<ul class="picTab">
+				<li>
+					<a href="#"><img src="img/main-pic.jpg" /></a>
+					<p>最高法发布司法解释规范独立保函纠纷案件审理1</p>
+					<div class="mask"></div>
+				</li>
+				<li>
+					<a href="#"><img src="img/main-pic.jpg" /></a>
+					<p>最高法发布司法解释规范独立保函纠纷案件审理2</p>
+					<div class="mask"></div>
+				</li>
+				<li>
+					<a href="#"><img src="img/main-pic.jpg" /></a>
+					<p>最高法发布司法解释规范独立保函纠纷案件审理3</p>
+					<div class="mask"></div>
+				</li>
+			</ul>
+			
+			<ul class="btn">
+				<li></li>
+				<li class="active"></li>
+				<li></li>
+			</ul>			
+		</div>
+		<div class="right">
+			<ul class="head clear">
+				<li><a href="#">公司m闻</a></li>
+				<li class="active"><a href="#">行业新闻</a></li>
+				<li><a href="#">媒体报道</a></li>
+				<li class="more"><a href="#">查看更多</a></li>
+			</ul>
+			<ul class="inner">
+				<li class="active">
+					<a class="title" href="#">非金融企业债务融资工具注册专家管理办法修订发布</a>
+					<span>2015.12.25</span>
+					<div>
+						<p>近日，中国银行间市场交易商协会修订发布《非金融企业债务融资工具注册专家管理办法》（下称《办
+法》），自发布之日起施行。《办法》明确，注册专家由投资者…</p>
+						<strong>2015.12.25</strong><em>125</em>
+					</div>
+				</li>
+				<li>
+					<a class="title" href="#">数字化科技时代我们的工作会变成什么样？</a>
+					<span>2015.10.25</span>
+					<div>
+						<p>近日，中国银行间市场交易商协会修订发布《非金融企业债务融资工具注册专家管理办法》（下称《办
+法》），自发布之日起施行。《办法》明确，注册专家由投资者…</p>
+						<strong>2015.10.25</strong><em>125</em>
+					</div>
+				</li>
+				<li>
+					<a class="title" href="#">“用户时代”取代“信息时代”：设计将成为主导</a>
+					<span>2015.10.12</span>
+					<div>
+						<p>近日，中国银行间市场交易商协会修订发布《非金融企业债务融资工具注册专家管理办法》（下称《办
+法》），自发布之日起施行。《办法》明确，注册专家由投资者…</p>
+						<strong>2015.10.12</strong><em>125</em>
+					</div>
+				</li>
+				<li>
+					<a class="title" href="#">Gartner发布2015年技术炒作周期报告，未来新的炒作焦点会是什么？</a>
+					<span>2015.9.28</span>
+					<div>
+						<p>近日，中国银行间市场交易商协会修订发布《非金融企业债务融资工具注册专家管理办法》（下称《办
+法》），自发布之日起施行。《办法》明确，注册专家由投资者…</p>
+						<strong>2015.9.28</strong><em>125</em>
+					</div>
+				</li>
+				<li>
+					<a class="title" href="#">美国在线教育的崛起：开放课程将会“吞噬”传统课程</a>
+					<span>2015.9.5</span>
+					<div>
+						<p>近日，中国银行间市场交易商协会修订发布《非金融企业债务融资工具注册专家管理办法》（下称《办
+法》），自发布之日起施行。《办法》明确，注册专家由投资者…</p>
+						<strong>2015.9.5</strong><em>125</em>
+					</div>
+				</li>
+			</ul>			
+		</div>
+	</div>
+</div>
+<div id="team">
+	<h1>专业团队</h1>
+	<div class="bar">
+		<p>Professional Team</p>
+		<span class="barL"></span>
+		<span class="barR"></span>
+	</div>		
+</div>
+<div id="person">
+	<div class="slide wrap">
+		<div class="tabWrap">
+			<ul class="tab">
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">张建林</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">李力</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">何祥礼</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">祝浩</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">祝浩</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">祝浩</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">祝浩</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+				<li>
+					<a href="#"><img src="img/bot-pic.jpg" alt="张建林"></a>
+					<p class="name">祝浩</p>
+					<span></span>
+					<div class="detail">
+						<div class="clear">
+							<h2>李力</h2>
+							<h3>主任律师</h3>
+						</div>						
+						<p>律师执业证号码:5132543545315213</p>
+						<p>学历：硕士</p>
+						<p>女，四川同鼎律师事务所律师</p>
+					</div>
+				</li>
+			</ul>
+		</div>			
+		<ul class="dot">
+			<li class="active"></li>
+			<li></li>
+		</ul>		
+		<a href="javascript:;" class="prev"></a>
+		<a href="javascript:;" class="next"></a>
+		<a href="#" class="btnMore">Read More</a>
+	</div>
+</div>
+<div id="law" class="wrap">
+	<h1>法律工具</h1>
+	<div class="bar">
+		<p>Legal Tools</p>
+		<span class="barL"></span>
+		<span class="barR"></span>
+	</div>
+	<div class="tool">
+		<div class="net clear">
+			<ul>
+				<li><a href="#">工商信息网</a></li>
+				<li><a href="#">法院执行网</a></li>
+				<li><a href="#">失信执行人信息网</a></li>
+				<li><a href="#">裁判文书网</a></li>
+				<li><a href="#">这儿网那儿网</a></li>
+				<li><a href="#">不知道什么网</a></li>
+				<li><a href="#">不知道什么网</a></li>
+				<li><a href="#">不知道什么网</a></li>
+				<li><a href="#">不知道什么网</a></li>
+				<li><a href="#">不知道什么网</a></li>
+			</ul>
+		</div>
+		<a class="prev" href="javascript:;"></a>
+		<a class="next" href="javascript:;"></a>
+	</div>
+	<ul class="dot">
+		<li class="active"></li>
+		<li></li>
+	</ul>
+</div>
+<div id="case">
+	<div class="contentCase wrap">
+		<h1>经典案例</h1>
+		<div class="bar">
+			<p>Classic Case</p>
+			<span class="barL"></span>
+			<span class="barR"></span>
+		</div>
+		<div class="projFa">
+			<ul class="proj">			
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>		
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>	
+				<li>
+					<div class="showPic">
+						<a href="#"><img src="img/foot-pic.jpg" alt=""></a>
+					</div>
+					<a class="title" href="#">好世系列房地产开发项目全过程法律服务</a>
+					<span></span>
+					<p>由世界500强之一的日本丸红公司和上海泰路实业发展有
+限公司共同投资组建的上海好世置业有限公司开发了一系
+列房地产项目，包括好世皇马苑…</p>
+					<a href="#" class="more">了解详情></a>
+				</li>							
+			</ul>
+		</div>		
+		<ul class="dot">
+			<li></li>
+			<li class="active"></li>
+			<li></li>
+		</ul>
+		<a href="#" class="btnMore">Read More</a>
+	</div>	
+</div>
+<div id="foot">
+	<p>地址：四川成都市武侯区鹭岛路36号LOFT写字楼910室</p>
+	<p>电话：028-85559126      邮 箱：tdylawyer@126.com      邮 编：610041</p>
+	<div class="right">
+		<span class="weixin">官方微信:</span>
+		<span class="weibo">官方微博</span>
+		<select id="link">
+			<option value="">友情链接</option>
+		</select>
+	</div>
+	<span class="vertBar"></span>
+</div>
+<div id="over">
+	<p>蜀ICP备26158156号        Copyright © 2017 （Tdyllsws.com）, All Rights Reserve.</p>
+</div>
+<div id="section">
+	<ul>
+		<li class="weixin"><a href="javascript:;">官方微信</a></li>
+		<li class="weibo"><a href="javascript:;">官方微博</a></li>
+		<li class="top"><a href="javascript:;">返回顶部</a></li>
+	</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+@charset: "utf-8";
+
+#tab {width: 1000px;margin:50px auto;}
+#tab th,#tab td { border-collapse: collapse;border: 1px solid black;text-align: center; }
+#del_all { position: absolute;right: 120px;top: 20px;width: 100px;height: 50px;line-height: 50px;text-align: center;border-radius: 10px;font-size: 18px;font-weight: bold;color: red;cursor: pointer; }
+.page_wrap { text-align: center; }
+.page { display: inline-block; }
+.page li { float: left;padding: 0 10px;font-size: 16px;cursor: pointer; }
+.page li:hover { color: red;text-decoration: underline; }
+.page .active { color: red;text-decoration: underline; }
+#tab a:hover {color: red;}
+
+

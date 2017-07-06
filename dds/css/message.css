@@ -1,0 +1,13 @@
+@charset 'utf-8';
+
+body { background-color: #f1f1f1; }
+#txt { width: 1000px;border: 1px solid #ccc;padding: 20px 20px;margin: 20px auto; }
+.user_msg { }
+.user_msg li { width: 900px;border: 1px dotted black;margin: 10px auto;}
+.user_msg h2 { height: 30px;line-height: 30px;text-indent: 10px;border-bottom: 1px dashed orange }
+.user_msg h2 span { color: red; }
+.msg_cont { height: 200px;overflow: hidden;padding-left: 20px;position: relative;}
+.msg_cont p { height: 30px;line-height: 30px;max-width: 800px;text-indent: 20px;word-break:break-all;}
+.msg_cont i { position:absolute;color: #666;text-align: right;font-size: 12px;height: 15px;right: 20px;bottom: 20px;  }
+.msg_head { text-align: center;position: relative;height: 220px;border: 1px dotted red; }
+#btn_msg { position: absolute;left: 50%;bottom: 0px;width: 100px;height: 50px;line-height: 50px;text-align: center;border-radius: 10px;font-size: 18px;font-weight: bold;color: red;cursor: pointer; }

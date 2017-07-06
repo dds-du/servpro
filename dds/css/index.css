@@ -1,0 +1,18 @@
+@charset 'utf-8';
+body { background: url(../img/star2.jpg);overflow: hidden; }
+
+#box {width: 1000px; height: 300px; margin: 200px auto;transform-style: preserve-3d;position: relative;perspective: 1500px;}
+#wrap {
+	width: 100%;height: 100%;position: absolute;transform-style: preserve-3d;-animation: rot linear 10s infinite forwards;transform-origin: top center;left: 0;top: 0;
+}
+#box li { width: 180px;height: 300px; position: absolute;left: 0;top: 0;transform: translate3d(400px,500px,0) rotateX(90deg) scale(0.01);transition: 2s;cursor: pointer;vertical-align: top;list-style: none;}
+#box img { width: 100%;height: 100%; }
+#box .mask { width: 100%;height: 100%;position: absolute;background-color: #000;opacity: .2;left: 0;top: 0; }
+#ul1 {width: 500px;height: 100px;position: absolute;left: 0;top: 0;}
+#ul1 li {width: 100px;height: 100px;float: left;background-color: red;}
+#mask { position: absolute;width: 100%;height: 100%;opacity: .9;background: #000;left: 0;top: 0; display: none;}
+#mask p {width: 80%; height: 100px;line-height: 100px;text-align: center; font-size: 36px;color: #fff;padding-top: 50px; }
+.reg_mask { display: none; }
+#toMsg { position: absolute;right: 10%;top: 100px;width: 100px;height: 50px;line-height: 50px;text-align: center;border-radius: 10px;font-size: 18px;font-weight: bold;color: yellow;background-color: #ccc; }
+
+
